@@ -1,0 +1,18 @@
+{
+  "pages":[
+    "pages/videoinfo/videoinfo",
+    "pages/searchVideo/searchVideo",
+    "pages/index/index",
+    "pages/userLogin/login",
+    "pages/mine/mine",
+    "pages/userRegist/regist",
+    "pages/chooseBgm/chooseBgm"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "海豪短视频",
+    "navigationBarTextStyle":"black"
+  },
+  "debug": true
+}
