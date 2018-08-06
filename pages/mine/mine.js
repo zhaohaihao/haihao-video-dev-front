@@ -20,7 +20,9 @@ Page({
       url: serverUrl + "/user/queryUserInfo?userId=" + user.id,
       method: "POST",
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'userId': user.id,
+        'userToken': user.userToken
       },
       success: function (res) {
         console.log(res.data);
@@ -40,6 +42,17 @@ Page({
             receiveLikeCounts: userInfo.receiveLikeCounts
 
           });
+        } else if (res.data.status == 502) {
+          wx.showToast({
+            title: res.data.msg,
+            duration: 3000,
+            icon: "none",
+            success: function () {
+              wx.redirectTo({
+                url: '../userLogin/login',
+              })
+            }
+          })
         }
       }
     })
@@ -59,7 +72,7 @@ Page({
       url: serverUrl + '/logout?userId=' + user.id,
       method: "POST",
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json'
       },
       success: function (res) {
         console.log(res.data);
@@ -104,7 +117,9 @@ Page({
           filePath: tempFilePaths[0],
           name: 'file',
           header: {
-            'content-type': 'application/json' // 默认值
+            'content-type': 'application/json',
+            'userId': userInfo.id,
+            'userToken': userInfo.userToken
           },
           success: function (res) {
             var data = JSON.parse(res.data);
@@ -123,6 +138,17 @@ Page({
               wx.showToast({
                 title: data.msg
               });
+            } else if (res.data.status == 502) {
+              wx.showToast({
+                title: res.data.msg,
+                duration: 3000,
+                icon: "none",
+                success: function () {
+                  wx.redirectTo({
+                    url: '../userLogin/login',
+                  })
+                }
+              })
             }
           }
         })

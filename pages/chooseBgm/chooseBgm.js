@@ -18,12 +18,15 @@ Page({
         title: '请等待...',
       });
       var serverUrl = app.serverUrl;
+      var user = app.getGlobalUserInfo();
       // 调用后端
       wx.request({
         url: serverUrl + '/bgm/list',
         method: "POST",
         header: {
-          'content-type': 'application/json' // 默认值
+          'content-type': 'application/json',
+          'userId': user.id,
+          'userToken': user.userToken
         },
         success: function (res) {
           console.log(res.data);
@@ -34,6 +37,17 @@ Page({
               bgmList: bgmList,
               serverUrl: serverUrl
             });
+          } else if (res.data.status == 502) {
+            wx.showToast({
+              title: res.data.msg,
+              duration: 3000,
+              icon: "none",
+              success: function () {
+                wx.redirectTo({
+                  url: '../userLogin/login',
+                })
+              }
+            })
           }
         }
       })
@@ -74,7 +88,9 @@ Page({
         filePath: tempVideoUrl,
         name: 'file',
         header: {
-          'content-type': 'application/json' // 默认值
+          'content-type': 'application/json',
+          'userId': userInfo.id,
+          'userToken': userInfo.userToken
         },
         success: function (res) {
           var data = JSON.parse(res.data);
@@ -122,6 +138,17 @@ Page({
             //     }
             //   }
             // })
+          } else if (res.data.status == 502) {
+            wx.showToast({
+              title: res.data.msg,
+              duration: 3000,
+              icon: "none",
+              success: function () {
+                wx.redirectTo({
+                  url: '../userLogin/login',
+                })
+              }
+            })
           } else {
             wx.showToast({
               title: '上传失败!',

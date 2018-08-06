@@ -37,11 +37,14 @@ Page({
     });
 
     var searchContent = me.data.searchContent;
+    var user = app.getGlobalUserInfo();
     wx.request({
       url: serverUrl + '/video/showAll?page=' + page + "&isSaveRecord=" + isSaveRecord,
       method: "POST",
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json',
+        'userId': user.id,
+        'userToken': user.userToken
       },
       data: {
         videoDesc: searchContent
@@ -99,5 +102,18 @@ Page({
     // 当前页面显示导航条加载动画
     wx.showNavigationBarLoading();
     this.getAllVideoList(1, 0);
+  },
+
+  showVideoInfo: function (e) {
+    console.log(e)
+    var me = this;
+    var videoList = me.data.videoList;
+    var arrindex = e.target.dataset.arrindex;
+    // 对象无法跳转传递, 需转成字符串
+    var videoInfo = JSON.stringify(videoList[arrindex]);
+    wx.redirectTo({
+      url: '../videoinfo/videoinfo?videoInfo=' + videoInfo,
+    })
+
   }
 })

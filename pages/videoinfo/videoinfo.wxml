@@ -1,5 +1,5 @@
 <view style='width:100%;height:100%'>
-  <video id='myVideo' src="https://21979403.ngrok.io/180711A87GCFGF80/video/f1672bf2-cf60-4818-affb-2fdf637acf52.mp4"
+  <video id='myVideo' src="{{src}}"
 muted='{{true}}' controls='{{false}}' autoplay='{{true}}' loop='{{true}}' enable-progress-gesture='{{false}}' style='width:100%;height:100%' objectFit='{{cover}}'>
     <cover-view class='container'>
       <!-- 上传视频 -->

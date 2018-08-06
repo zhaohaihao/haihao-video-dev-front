@@ -4,6 +4,16 @@ Page({
   data: {
   },
 
+  onLoad: function (params) {
+    var me = this;
+    var redirectUrl = params.redirectUrl;
+    if (redirectUrl != null && redirectUrl != undefined && redirectUrl != '') {
+      redirectUrl = redirectUrl.replace(/#/g, "?");
+      redirectUrl = redirectUrl.replace(/@/g, "=");
+      me.redirectUrl = redirectUrl;
+    }
+  },
+
   // 登录
   doLogin: function(e) {
     var me = this;
@@ -47,9 +57,16 @@ Page({
             // fixme 修改原有的全局对象为本地缓存
             app.setGlobalUserInfo(res.data.data);
             // 页面跳转
-            wx.navigateTo({
-              url: '../mine/mine',
-            })
+            var redirectUrl = me.redirectUrl;
+            if (redirectUrl != null && redirectUrl != undefined && redirectUrl != '') {
+              wx.navigateTo({
+                url: redirectUrl,
+              })
+            } else {
+              wx.navigateTo({
+                url: '../mine/mine',
+              })
+            }
           } else if (res.data.status == 500) {
             // 失败弹出框
             wx.showToast({
